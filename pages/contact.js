@@ -58,7 +58,7 @@ export default function Contact() {
           </h1>
           <p className="text-2xl font-normal text-white text-left">
             Fill in your <b className="text-amber-300">information</b> and{" "}
-            <b className="text-green-400">message</b>, and we'll{" "}
+            <b className="text-green-400">message</b>, and we&apos;ll{" "}
             <b className="text-fuchsia-400">get back to you</b>.
           </p>
           <p className="pt-5 text-2xl font-normal text-white text-left">
