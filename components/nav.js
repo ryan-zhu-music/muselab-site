@@ -1,29 +1,30 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./button";
+import Link from "next/link";
 
 export default function Nav() {
   return (
     <nav className="w-screen h-32 fixed top-0 flex flex-row justify-between items-center px-16">
-      <a href="/">
+      <Link href="/">
         <Image src="/assets/logo.png" alt="MuseLab" width={240} height={240} />
-      </a>
+      </Link>
       <ul className="flex flex-row space-x-20">
         <li>
-          <a
+          <Link
             href="/about"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
           >
             About
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
             href="/download"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
           >
             Download
-          </a>
+          </Link>
         </li>
         <li>
           <a
@@ -36,12 +37,12 @@ export default function Nav() {
           </a>
         </li>
         <li>
-          <a
+          <Link
             href="/contact"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
           >
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
       <div className="flex items-center justify-center h-full space-x-4">

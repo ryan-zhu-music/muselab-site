@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
+import Link from "next/link";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -24,9 +25,7 @@ export default function Login() {
           className="flex flex-col items-center justify-around px-10 py-14 min-w-[30vw] min-h-[60vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
           onSubmit={onSubmit}
         >
-          <h1 className="text-4xl font-black text-white mb-10 mt-2">
-            Create an account
-          </h1>
+          <h1 className="text-4xl font-black text-white mb-10 mt-2">Log in</h1>
           <input
             type="text"
             placeholder="Username/Email"
@@ -51,21 +50,21 @@ export default function Login() {
           </button>
           <p className="text-white/50 font-medium text-base mt-7">
             Forgot password?{" "}
-            <a
+            <Link
               href="/reset"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
               Reset password
-            </a>
+            </Link>
           </p>
           <p className="text-white/50 font-medium text-base mt-2">
             Need an account?{" "}
-            <a
+            <Link
               href="/signup"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
               Sign up here
-            </a>
+            </Link>
           </p>
         </form>
       </main>

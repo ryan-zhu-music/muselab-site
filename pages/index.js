@@ -27,7 +27,7 @@ export default function Home() {
           <Button
             text={
               <p className="flex items-center justify-between">
-                Join our Discord"
+                Join our Discord
                 <IoLogoDiscord className="ml-2 text-2xl" />
               </p>
             }

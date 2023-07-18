@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
+import Link from "next/link";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -73,12 +74,12 @@ export default function Signup() {
           </button>
           <p className="text-white/50 font-medium text-base mt-7">
             Already have an account?{" "}
-            <a
+            <Link
               href="/login"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
               Log in
-            </a>
+            </Link>
           </p>
         </form>
       </main>

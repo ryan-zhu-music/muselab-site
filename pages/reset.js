@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
+import Link from "next/link";
 
 export default function Reset() {
   const [email, setEmail] = useState("");
@@ -27,8 +28,8 @@ export default function Reset() {
             Password recovery
           </h1>
           <p className="text-white/50 font-medium text-base mb-10">
-            Enter your email address below and we'll send you a link to reset
-            your password.
+            Enter your email address below and we&apos;ll send you a link to
+            reset your password.
           </p>
           <input
             type="text"
@@ -46,12 +47,12 @@ export default function Reset() {
           </button>
           <p className="text-white/50 font-medium text-base mt-7">
             Back to{" "}
-            <a
+            <Link
               href="/login"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
               login
-            </a>
+            </Link>
           </p>
         </form>
       </main>
