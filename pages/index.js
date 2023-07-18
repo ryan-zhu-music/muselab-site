@@ -19,7 +19,7 @@ export default function Home() {
         <h2 className="w-full text-3xl font-normal text-white text-center px-48">
           Create <b className="text-fuchsia-400">incredible music</b> together
           in <b className="text-lime-300">real-time</b> with MuseLab, a{" "}
-          <b className="text-teal-300">free plugin</b> developed for{" "}
+          <b className="text-teal-400">free plugin</b> developed for{" "}
           <b className="text-blue-300">MuseScore3</b>.
         </h2>
         <div className="flex flex-row space-x-5 mt-10">

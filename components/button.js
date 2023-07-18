@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Button({ text, onClick, type }) {
   let style =
-    "bg-teal-500 ring-2 ring-teal-500 text-white hover:bg-teal-700 hover:text-white";
+    "bg-teal-500 ring-2 ring-teal-500/90 text-white hover:bg-teal-700/90 hover:text-white";
   if (type === "secondary") {
     style =
-      "bg-transparent ring-2 ring-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white";
+      "bg-transparent ring-2 ring-teal-500/90 text-teal-500/90 hover:bg-teal-500/90 hover:text-white";
   }
 
   if (typeof onClick === "string") {
