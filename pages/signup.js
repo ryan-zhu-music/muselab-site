@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import {
+  verifyUsername,
+  verifyEmail,
+  verifyPassword,
+  showError,
+} from "../utils/verify";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -11,12 +20,63 @@ export default function Signup() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (password !== passwordConfirm) {
-      alert("Passwords do not match!");
-      return;
+    if (
+      verifyUsername(username) &&
+      verifyEmail(email) &&
+      verifyPassword(password, passwordConfirm)
+    ) {
+      fetch("https://api.muselab.app/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == 400) {
+            showError(data.message);
+            localStorage.setItem("isLoggedIn", false);
+          } else {
+            fetch("https://api.muselab.app/api/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username,
+                password,
+              }),
+            })
+              .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  showError("Failed to log in. Please try again.");
+                }
+              })
+              .then((data) => {
+                localStorage.setItem("accessToken", data.accessToken);
+                localStorage.setItem("userId", data.id);
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("email", data.email);
+                localStorage.setItem("isLoggedIn", true);
+                window.location.href = "/dashboard";
+              })
+              .catch((error) => {
+                showError(error.message);
+              });
+          }
+        })
+        .catch((err) => {
+          showError(err.message);
+          localStorage.setItem("isLoggedIn", false);
+        });
     }
-    console.log({ username, email, password, passwordConfirm });
-    // TO-DO: Add signup verification, error display, api call
   };
 
   return (
@@ -26,6 +86,7 @@ export default function Signup() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
+      <ToastContainer />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
         <form
           className="flex flex-col items-center justify-around px-10 py-14 min-w-[30vw] min-h-[60vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
@@ -40,15 +101,13 @@ export default function Signup() {
             className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
-            required={true}
           />
           <input
-            type="email"
+            type="text"
             placeholder="Email"
             className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            required={true}
           />
           <input
             type="password"
@@ -56,7 +115,6 @@ export default function Signup() {
             className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-            required={true}
           />
           <input
             type="password"
@@ -64,7 +122,6 @@ export default function Signup() {
             className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setPasswordConfirm(e.target.value)}
             value={passwordConfirm}
-            required={true}
           />
           <button
             type="submit"

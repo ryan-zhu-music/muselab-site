@@ -10,8 +10,8 @@ export default function Downloader({ title, filename, icon, className }) {
   return (
     <button
       className={
-        "relative flex flex-col w-80 h-44 items-center justify-center rounded-lg backdrop-blur-sm ring-1 ring-slate-600 bg-blue-950/30 hover:scale-105 hover:shadow-sm duration-300 ease-in-out " +
-        className
+        "relative flex flex-col items-center justify-center rounded-lg backdrop-blur-sm ring-1 ring-slate-600 bg-blue-950/30 hover:scale-105 hover:shadow-sm duration-300 ease-in-out " +
+        (className || "w-80 h-40")
       }
       onClick={onClick}
     >

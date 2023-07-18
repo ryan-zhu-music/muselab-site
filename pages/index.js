@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
       <Nav />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
-        <h1 className="text-7xl font-black text-white mb-5">
+        <h1 className="text-7xl font-black text-white text-center mb-5">
           Music collaboration made easy.
         </h1>
         <h2 className="w-full text-3xl font-normal text-white text-center px-48">

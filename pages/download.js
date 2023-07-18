@@ -62,7 +62,7 @@ export default function Download() {
           title="Zip file"
           filename="MuseLab.zip"
           icon={<MdFolderZip className="text-9xl text-slate-700/50" />}
-          className="w-96 h-28"
+          className="w-96 h-32"
         />
       </main>
       <footer className="w-screen h-32 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">

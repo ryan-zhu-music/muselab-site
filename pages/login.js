@@ -9,8 +9,42 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, password });
-    // TO-DO: Add login verification, error display, api call
+    if (!username) {
+      showError("Username cannot be empty");
+      return false;
+    }
+    if (!password) {
+      showError("Password cannot be empty");
+      return false;
+    }
+    fetch("https://api.muselab.app/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          showError("Failed to log in. Please try again.");
+        }
+      })
+      .then((data) => {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("userId", data.id);
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("isLoggedIn", true);
+        window.location.href = "/dashboard";
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
   };
 
   return (
@@ -46,7 +80,7 @@ export default function Login() {
             type="submit"
             className="w-full h-12 px-4 py-2 mt-5 text-lg font-black ring-1 backdrop-blur-sm ring-teal-500/90 bg-teal-500/90 rounded-lg text-white font-regular focus:outline-none hover:bg-teal-700/90 duration-300 ease-in-out"
           >
-            Sign up
+            Log in
           </button>
           <p className="text-white/50 font-medium text-base mt-7">
             Forgot password?{" "}
