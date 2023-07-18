@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 
-export default function Home() {
+export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

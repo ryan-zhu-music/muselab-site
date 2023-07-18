@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 
-export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Reset() {
+  const [email, setEmail] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log({ username, password });
-    // TO-DO: Add login verification, error display, api call
+    // TO-DO: Add input verification, error display, api call
   };
 
   return (
@@ -21,26 +20,22 @@ export default function Login() {
       <Nav />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
         <form
-          className="flex flex-col items-center justify-around px-10 py-14 min-w-[30vw] min-h-[60vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
+          className="flex flex-col items-center justify-around p-10 min-w-[30vw] min-h-[30vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
           onSubmit={onSubmit}
         >
-          <h1 className="text-4xl font-black text-white mb-10 mt-2">
-            Create an account
+          <h1 className="text-4xl font-black text-white mb-4 mt-2">
+            Password recovery
           </h1>
+          <p className="text-white/50 font-medium text-base mb-10">
+            Enter your email address below and we'll send you a link to reset
+            your password.
+          </p>
           <input
             type="text"
-            placeholder="Username/Email"
+            placeholder="Enter your email"
             className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
-            required={true}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             required={true}
           />
           <button
@@ -50,21 +45,12 @@ export default function Login() {
             Sign up
           </button>
           <p className="text-white/50 font-medium text-base mt-7">
-            Forgot password?{" "}
+            Back to{" "}
             <a
-              href="/reset"
+              href="/login"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
-              Reset password
-            </a>
-          </p>
-          <p className="text-white/50 font-medium text-base mt-2">
-            Need an account?{" "}
-            <a
-              href="/signup"
-              className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
-            >
-              Sign up here
+              login
             </a>
           </p>
         </form>
