@@ -13,8 +13,6 @@ export default function Nav() {
           <a
             href="/about"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             About
           </a>
@@ -23,8 +21,6 @@ export default function Nav() {
           <a
             href="/download"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             Download
           </a>
@@ -43,8 +39,6 @@ export default function Nav() {
           <a
             href="/contact"
             className="text-white font-black text-xl hover:text-teal-500 duration-300 ease-in-out"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             Contact
           </a>

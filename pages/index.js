@@ -1,5 +1,5 @@
+import React from "react";
 import Head from "next/head";
-import Image from "next/image";
 import Button from "../components/button";
 import { IoLogoDiscord } from "react-icons/io5";
 import Nav from "../components/nav";
