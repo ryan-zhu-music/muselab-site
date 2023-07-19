@@ -36,41 +36,52 @@ export default function Signup() {
           password,
         }),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status == 400) {
-            showError(data.message);
-            localStorage.setItem("isLoggedIn", false);
-          } else {
-            fetch("https://api.muselab.app/api/auth/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                username,
-                password,
-              }),
+        .then((res) => {
+          let ok = res.ok;
+          res
+            .json()
+            .then((data) => {
+              if (!ok) {
+                throw new Error(data.message);
+              }
+              fetch("https://api.muselab.app/api/auth/login", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  username,
+                  password,
+                }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  } else {
+                    showError("Failed to log in.");
+                    localStorage.setItem("isLoggedIn", false);
+                    setTimeout(() => {
+                      window.location.href = "/login";
+                    }, 5000);
+                  }
+                })
+                .then((data) => {
+                  localStorage.setItem("accessToken", data.accessToken);
+                  localStorage.setItem("userId", data.id);
+                  localStorage.setItem("username", data.username);
+                  localStorage.setItem("email", data.email);
+                  localStorage.setItem("isLoggedIn", true);
+                  window.location.href = "/dashboard";
+                })
+                .catch((error) => {
+                  showError(error.message);
+                  localStorage.setItem("isLoggedIn", false);
+                });
             })
-              .then((response) => {
-                if (response.ok) {
-                  return response.json();
-                } else {
-                  showError("Failed to log in. Please try again.");
-                }
-              })
-              .then((data) => {
-                localStorage.setItem("accessToken", data.accessToken);
-                localStorage.setItem("userId", data.id);
-                localStorage.setItem("username", data.username);
-                localStorage.setItem("email", data.email);
-                localStorage.setItem("isLoggedIn", true);
-                window.location.href = "/dashboard";
-              })
-              .catch((error) => {
-                showError(error.message);
-              });
-          }
+            .catch((err) => {
+              showError(err.message);
+              localStorage.setItem("isLoggedIn", false);
+            });
         })
         .catch((err) => {
           showError(err.message);

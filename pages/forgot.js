@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { verifyEmail, showError } from "../utils/verify";
+import { verifyEmail, showError, showSuccess } from "../utils/verify";
 
 export default function Forgot() {
   const [email, setEmail] = useState("");
@@ -22,19 +22,7 @@ export default function Forgot() {
       })
         .then((response) =>
           response.json().then((data) => {
-            toast.success("Reset email sent!", {
-              position: toast.POSITION.BOTTOM_RIGHT,
-              autoClose: 5000,
-              closeOnClick: false,
-              pauseOnHover: false,
-              draggable: false,
-              style: {
-                fontFamily: "Nunito Sans",
-                opacity: 0.9,
-                background: "#1F2937",
-                color: "#F9FAFB",
-              },
-            });
+            showSuccess("Reset link sent successfully!");
           })
         )
         .catch((error) => showError(error.message));
