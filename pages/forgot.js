@@ -37,7 +37,7 @@ export default function Forgot() {
             });
           })
         )
-        .catch((error) => showError(error));
+        .catch((error) => showError(error.message));
     }
   };
 
