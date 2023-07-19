@@ -85,7 +85,7 @@ export default function Login() {
           <p className="text-white/50 font-medium text-base mt-7">
             Forgot password?{" "}
             <Link
-              href="/reset"
+              href="/forgot"
               className="text-teal-500 hover:text-teal-600 duration-300 ease-in-out underline"
             >
               Reset password
