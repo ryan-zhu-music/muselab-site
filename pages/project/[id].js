@@ -87,22 +87,24 @@ export default function ProjectPage() {
             <p className="text-white/50 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
               Total: {project.users && project.users.length}
             </p>
-            <ul className="flex w-full overflow-y-scroll space-y-2 flex-col bg-slate-500/60 rounded-xl px-7 py-5">
-              {project.users &&
-                project.users.map((user, index) => (
-                  <li
-                    key={index}
-                    className="text-white w-full flex flex-row justify-between text-sm sm:text-lg xl:text-xl"
-                  >
-                    <p className="text-white font-black text-sm sm:text-lg xl:text-xl">
-                      {user.username}
-                    </p>
-                    <button onClick={() => removeUser(index)}>
-                      <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                    </button>
-                  </li>
-                ))}
-            </ul>
+            <div className="w-full flex items-center overflow-y-hidden justify-center bg-slate-500/60 rounded-xl p-3">
+              <ul className="relative flex w-full h-full overflow-y-scroll space-y-2 flex-col px-3 py-2">
+                {project.users &&
+                  project.users.map((user, index) => (
+                    <li
+                      key={index}
+                      className="text-white w-full flex flex-row justify-between text-sm sm:text-lg xl:text-xl"
+                    >
+                      <p className="text-white font-black text-sm sm:text-lg xl:text-xl">
+                        {user.username}
+                      </p>
+                      <button onClick={() => removeUser(index)}>
+                        <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                      </button>
+                    </li>
+                  ))}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="relative w-1/2 h-full flex flex-col gap-1 items-start justify-start rounded-xl backdrop-blur-sm py-10 px-8 ring-1 ring-slate-600 bg-blue-950/30 ">
@@ -126,36 +128,38 @@ export default function ProjectPage() {
               Total: {project.files && project.files.length}
             </p>
           </div>
-          <ul className="flex w-full overflow-y-scroll gap-2 flex-col bg-slate-500/60 rounded-xl px-5 py-5">
-            {project.files &&
-              project.files.map((file, index) => (
-                <>
-                  <li
-                    className="relative py-4 min-h-[50px] px-2 w-full flex flex-col items-start justify-start"
-                    key={index}
-                  >
-                    <h3 className="text-white font-black text-sm sm:text-lg xl:text-xl">
-                      {file.title}
-                    </h3>
-                    <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
-                      {file.date}
-                    </p>
-                    <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
-                      {file.author}
-                    </p>
-                    <button
-                      className="text-white/50 absolute top-1 right-4 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
-                      onClick={() => downloadFile(file.fileName)}
+          <div className="w-full flex items-center overflow-y-hidden justify-center bg-slate-500/60 rounded-xl p-3">
+            <ul className="relative flex w-full h-full overflow-y-scroll space-y-2 flex-col px-3 py-2">
+              {project.files &&
+                project.files.map((file, index) => (
+                  <>
+                    <li
+                      className="relative py-4 min-h-[50px] px-2 w-full flex flex-col items-start justify-start"
+                      key={index}
                     >
-                      <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                    </button>
-                  </li>
-                  {index < project.files.length - 1 && (
-                    <div className="w-full h-0.5 bg-white/20 my-1" />
-                  )}
-                </>
-              ))}
-          </ul>
+                      <h3 className="text-white font-black text-sm sm:text-lg xl:text-xl">
+                        {file.title}
+                      </h3>
+                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
+                        {file.date}
+                      </p>
+                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
+                        {file.author}
+                      </p>
+                      <button
+                        className="text-white/50 absolute top-1 right-4 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
+                        onClick={() => downloadFile(file.fileName)}
+                      >
+                        <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                      </button>
+                    </li>
+                    {index < project.files.length - 1 && (
+                      <div className="w-full h-0.5 bg-white/20 my-1" />
+                    )}
+                  </>
+                ))}
+            </ul>
+          </div>
         </div>
       </main>
       <footer className="w-screen h-20 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">

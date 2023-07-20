@@ -26,3 +26,16 @@ option {
   background-color: #192a4f9b;
   color: #d3d4e4;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: none;
+  padding-right: 2px;
+  position: absolute;
+  right: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7a8db6c6;
+  border-radius: 10px;
+}
