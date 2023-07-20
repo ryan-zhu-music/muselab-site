@@ -10,8 +10,9 @@ export default function Dashboard() {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [projects, setProjects] = useState([]);
+
   useEffect(() => {
-    if (!localStorage.getItem("isLoggedIn")) {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
       window.location.href = "/login";
     } else {
       setUsername(localStorage.getItem("username"));
@@ -19,7 +20,7 @@ export default function Dashboard() {
       fetch("https://api.muselab.app/api/projects/list", {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
         },
       })
         .then((response) => {
@@ -34,6 +35,7 @@ export default function Dashboard() {
                 showError(error.message);
               });
           } else {
+            console.log(response);
             throw new Error("Failed to fetch projects.");
           }
         })
@@ -59,8 +61,8 @@ export default function Dashboard() {
           Your <b className="text-teal-400">projects</b>
         </h2>
         <div className="flex flex-row flex-wrap justify-center items-start gap-5">
-          {projects.map((project) => (
-            <Project key={project.id} project={project} />
+          {projects.map((project, index) => (
+            <Project key={index} project={project} />
           ))}
         </div>
       </main>

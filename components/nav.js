@@ -11,7 +11,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") == "true");
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
   if (width < 900) {
@@ -46,7 +46,7 @@ export default function Nav() {
             <li>
               <div className="h-[2px] bg-slate-400/50 z-20" />
             </li>
-            {!isLoggedIn && (
+            {isLoggedIn && (
               <li>
                 <Link
                   href="/dashboard"

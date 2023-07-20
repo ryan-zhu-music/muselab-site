@@ -8,11 +8,11 @@ import { showError } from "../../utils/verify";
 
 export default function ProjectPage() {
   const router = useRouter();
-  const id = router.query.id;
+  const { id } = router.query;
   const [project, setProject] = useState({});
 
   useEffect(() => {
-    if (!localStorage.getItem("isLoggedIn")) {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
       window.location.href = "/login";
     }
     const token = localStorage.getItem("accessToken");
@@ -20,7 +20,6 @@ export default function ProjectPage() {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
-        mode: "no-cors",
       },
     })
       .then((response) => {
@@ -32,16 +31,16 @@ export default function ProjectPage() {
               setProject(data);
             })
             .catch((error) => {
-              showError(error.message);
+              if (id) showError(error.message);
             });
         } else {
           throw new Error("Failed to fetch project.");
         }
       })
       .catch((error) => {
-        showError(error.message);
+        if (id) showError(error.message);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div className="w-screen h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
