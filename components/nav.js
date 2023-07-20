@@ -6,7 +6,6 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 import { HiMenu } from "react-icons/hi";
 
 export default function Nav() {
-  if (typeof window === "undefined") return null;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { width, height } = useWindowDimensions();
   const [open, setOpen] = useState(false);
@@ -17,7 +16,7 @@ export default function Nav() {
 
   if (width < 900) {
     return (
-      <nav className="w-screen pt-5 fixed top-0 flex flex-row justify-between items-center px-12">
+      <nav className="w-screen pt-3 fixed top-0 flex flex-row justify-between items-center px-6 md:px-12">
         <Link href="/">
           <Image
             src="/assets/logo.png"
@@ -119,7 +118,7 @@ export default function Nav() {
   }
 
   return (
-    <nav className="w-screen h-32 fixed top-0 flex flex-row justify-between items-center px-16">
+    <nav className="w-screen h-28 fixed top-0 flex flex-row justify-between items-center px-16">
       <Link href="/">
         <Image src="/assets/logo.png" alt="MuseLab" width={240} height={240} />
       </Link>

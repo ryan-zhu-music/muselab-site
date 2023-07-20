@@ -9,17 +9,17 @@ const downloads = [
   {
     title: "Windows",
     filename: "muselab-win.exe",
-    icon: <FaWindows className="text-9xl text-slate-700/50" />,
+    icon: <FaWindows />,
   },
   {
     title: "MacOS",
     filename: "muselab-mac",
-    icon: <FaApple className="text-9xl text-slate-700/50" />,
+    icon: <FaApple />,
   },
   {
     title: "Linux",
     filename: "muselab-linux",
-    icon: <FaLinux className="text-9xl text-slate-700/50" />,
+    icon: <FaLinux />,
   },
 ];
 
@@ -31,20 +31,20 @@ export default function Download() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-      <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
-        <h1 className="text-7xl font-black text-white mb-6">
+      <main className="w-screen h-screen py-24 flex flex-col items-center justify-evenly bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
+        <h1 className="text-center text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black text-white portrait:mb-3 mb-6">
           Download MuseLab
         </h1>
-        <p className="w-full text-2xl font-normal text-white text-center px-48">
+        <p className="w-full text-sm sm:text-base md:text-lg xl:text-2xl font-normal text-white text-center max-w-5xl">
           Select the right <b className="text-rose-400">installer</b> for your{" "}
           <b className="text-indigo-300">machine</b>.
         </p>
-        <p className="w-full text-2xl font-normal text-white text-center px-48">
+        <p className="w-full text-sm sm:text-base md:text-lg xl:text-2xl font-normal text-white text-center max-w-5xl">
           <b className="text-purple-300">Double-click</b> to run the{" "}
           <b className="text-pink-300">executable</b> to automatically install
           MuseLab.
         </p>
-        <div className="flex flex-row space-x-10 mt-7">
+        <div className="flex flex-col w-full items-center justify-center space-y-4 md:space-y-0 md:flex-row md:space-x-10 portrait:mt-4 mt-7">
           {downloads.map((download) => (
             <Downloader
               title={download.title}
@@ -54,19 +54,18 @@ export default function Download() {
             />
           ))}
         </div>
-        <p className="w-full text-2xl font-normal text-white text-center px-48 my-6">
+        <p className="w-full text-sm sm:text-base md:text-lg xl:text-2xl font-normal text-white text-center max-w-5xl portrait:my-3 my-6">
           Or, if you prefer to install MuseLab{" "}
           <b className="text-orange-300">manually:</b>
         </p>
         <Downloader
           title="Zip file"
           filename="MuseLab.zip"
-          icon={<MdFolderZip className="text-9xl text-slate-700/50" />}
-          className="w-96 h-32"
+          icon={<MdFolderZip />}
         />
       </main>
-      <footer className="w-screen h-32 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
-        <p className="text-white/20 font-medium text-sm">
+      <footer className="w-screen h-20 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
+        <p className="text-white/20 font-medium text-xs lg:text-sm">
           Not affiliated with MuseScore.
         </p>
       </footer>

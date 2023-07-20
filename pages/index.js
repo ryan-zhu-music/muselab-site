@@ -16,7 +16,7 @@ export default function Home() {
         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center mb-5 max-w-6xl">
           Music collaboration made easy.
         </h1>
-        <h2 className="w-full text-base md:text-2xl lg:text-3xl font-normal text-white text-center max-w-5xl">
+        <h2 className="w-full text-base md:text-2xl xl:text-3xl font-normal text-white text-center max-w-5xl">
           Create <b className="text-fuchsia-400">incredible music</b> together
           in <b className="text-lime-300">real-time</b> with MuseLab, a{" "}
           <b className="text-teal-400">free plugin</b> developed for{" "}
