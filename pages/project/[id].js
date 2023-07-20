@@ -5,7 +5,7 @@ import Nav from "../../components/nav";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showError } from "../../utils/verify";
-import { FaDownload, FaEdit, FaUserMinus } from "react-icons/fa";
+import { FaDownload, FaEdit, FaUserMinus, FaUserPlus } from "react-icons/fa";
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -16,7 +16,13 @@ export default function ProjectPage() {
 
   const downloadFile = (fileName) => {};
 
+  const addUser = () => {};
+
   const sortBy = (value) => {};
+
+  const editMetadata = () => {};
+
+  const uploadFile = () => {};
 
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -60,10 +66,15 @@ export default function ProjectPage() {
       <main className="w-screen h-screen flex flex-row items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32 py-32 gap-5">
         <div className="w-1/2 h-full flex flex-col justify-between items-center gap-5">
           <div className="relative w-full h-1/3 flex flex-col gap-2 items-start justify-center rounded-xl backdrop-blur-sm py-5 px-8 ring-1 ring-slate-600 bg-blue-950/30 ">
-            <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
-              <b className="font-black">Title: </b>
-              {project.name || "Untitled project"}
-            </p>
+            <div className="w-full flex justify-between items-center">
+              <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
+                <b className="font-black">Title: </b>
+                {project.name || "Untitled project"}
+              </p>
+              <button onClick={editMetadata}>
+                <FaEdit className="text-white/50 hover:text-white duration-300 ease-in-out text-2xl" />
+              </button>
+            </div>
             <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
               <b className="font-black">Creation date: </b>
               {project.date || "Unknown date"}
@@ -76,13 +87,13 @@ export default function ProjectPage() {
               <b className="font-black">Ensemble: </b>
               {project.ensemble || "Unknown ensemble"}
             </p>
-            <button className="absolute top-5 right-6 text-2xl">
-              <FaEdit className="text-white/50 hover:text-white duration-300 ease-in-out" />
-            </button>
           </div>
           <div className="relative w-full h-2/3 flex flex-col gap-1 items-start justify-center rounded-xl backdrop-blur-sm py-5 px-8 ring-1 ring-slate-600 bg-blue-950/30 ">
-            <h2 className="text-white font-black text-lg sm:text-xl xl:text-2xl">
+            <h2 className="text-white w-full font-black text-lg sm:text-xl xl:text-2xl flex justify-between flex-row items-center">
               Contributors
+              <button onClick={addUser}>
+                <FaUserPlus className="text-white/50 hover:text-white duration-300 ease-in-out" />
+              </button>
             </h2>
             <p className="text-white/50 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
               Total: {project.users && project.users.length}
@@ -108,8 +119,11 @@ export default function ProjectPage() {
           </div>
         </div>
         <div className="relative w-1/2 h-full flex flex-col gap-1 items-start justify-start rounded-xl backdrop-blur-sm py-10 px-8 ring-1 ring-slate-600 bg-blue-950/30 ">
-          <h2 className="text-white font-black text-lg sm:text-xl xl:text-2xl">
+          <h2 className="text-white font-black text-lg sm:text-xl xl:text-2xl w-full flex justify-between items-center">
             Files
+            <button onClick={uploadFile}>
+              <FaUserPlus className="text-white/50 hover:text-white duration-300 ease-in-out text-2xl" />
+            </button>
           </h2>
           <div className="w-full flex justify-between items-center mb-3">
             <p className="text-white/50 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
