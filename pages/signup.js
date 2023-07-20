@@ -98,49 +98,49 @@ export default function Signup() {
       </Head>
       <Nav />
       <ToastContainer />
-      <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
+      <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
         <form
-          className="flex flex-col items-center justify-around px-10 py-14 min-w-[30vw] min-h-[60vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
+          className="flex flex-col items-center justify-evenly space-y-4 p-6 lg:p-10 min-w-[30vw] min-h-[50vh] max-h-[70vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
           onSubmit={onSubmit}
         >
-          <h1 className="text-4xl font-black text-white mb-10 mt-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-center font-black text-white mt-2">
             Create an account
           </h1>
           <input
             type="text"
             placeholder="Username"
-            className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
+            className="w-full px-4 py-2 text-sm sm:text-base lg:text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
           />
           <input
             type="text"
             placeholder="Email"
-            className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
+            className="w-full px-4 py-2 text-sm sm:text-base lg:text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
+            className="w-full px-4 py-2 text-sm sm:text-base lg:text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
           <input
             type="password"
             placeholder="Confirm password"
-            className="w-full h-12 px-4 py-2 mb-6 text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
+            className="w-full px-4 py-2 text-sm sm:text-base lg:text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setPasswordConfirm(e.target.value)}
             value={passwordConfirm}
           />
           <button
             type="submit"
-            className="w-full h-12 px-4 py-2 mt-5 text-lg font-black ring-1 backdrop-blur-sm ring-teal-500/90 bg-teal-500/90 rounded-lg text-white font-regular focus:outline-none hover:bg-teal-700/90 duration-300 ease-in-out"
+            className="w-full px-4 py-2 mt-5 text-sm sm:text-base lg:text-lg font-black ring-1 backdrop-blur-sm ring-teal-500/90 bg-teal-500/90 rounded-lg text-white font-regular focus:outline-none hover:bg-teal-700/90 duration-300 ease-in-out"
           >
             Sign up
           </button>
-          <p className="text-white/50 font-medium text-base mt-7">
+          <p className="text-white/50 font-medium text-center text-xs sm:text-sm md:text-base mt-7">
             Already have an account?{" "}
             <Link
               href="/login"
@@ -151,7 +151,7 @@ export default function Signup() {
           </p>
         </form>
       </main>
-      <footer className="w-screen h-32 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
+      <footer className="w-screen h-20 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
         <p className="text-white/20 font-medium text-sm">
           Not affiliated with MuseScore.
         </p>

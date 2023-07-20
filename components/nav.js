@@ -16,14 +16,14 @@ export default function Nav() {
 
   if (width < 900) {
     return (
-      <nav className="w-screen pt-3 fixed top-0 flex flex-row justify-between items-center px-6 md:px-12">
+      <nav className="w-screen pt-3 fixed z-30 top-0 flex flex-row justify-between items-center px-6 md:px-12">
         <Link href="/">
           <Image
             src="/assets/logo.png"
             alt="MuseLab"
             width={200}
             height={200}
-            className="relative z-20"
+            className="relative z-40"
           />
         </Link>
         <button
@@ -34,13 +34,13 @@ export default function Nav() {
         </button>
         <div
           className={
-            "duration-500 ease-in-out absolute z-10 top-0 left-0 overflow-hidden " +
+            "duration-500 ease-in-out absolute z-30 top-0 left-0 overflow-hidden " +
             (open ? "max-h-[600px]" : "max-h-0")
           }
         >
           <ul
             className={
-              "backdrop-blur-lg bg-blue-950/50 relative z-10 pt-28 pb-16 px-12 text-base font-black text-white w-screen flex-col space-y-6 items-start justify-start"
+              "backdrop-blur-lg bg-blue-950/50 relative z-30 pt-28 pb-16 px-12 text-base font-black text-white w-screen flex-col space-y-6 items-start justify-start"
             }
           >
             <li>
@@ -118,7 +118,7 @@ export default function Nav() {
   }
 
   return (
-    <nav className="w-screen h-28 fixed top-0 flex flex-row justify-between items-center px-16">
+    <nav className="w-screen h-28 fixed z-30 top-0 flex flex-row justify-between items-center px-16">
       <Link href="/">
         <Image src="/assets/logo.png" alt="MuseLab" width={240} height={240} />
       </Link>
