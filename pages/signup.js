@@ -103,7 +103,7 @@ export default function Signup() {
           className="flex flex-col items-center justify-evenly space-y-4 p-6 lg:p-10 min-w-[30vw] min-h-[50vh] max-h-[70vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
           onSubmit={onSubmit}
         >
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-center font-black text-white mt-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-center font-black text-white mt-2 mb-4">
             Create an account
           </h1>
           <input

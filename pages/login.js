@@ -12,6 +12,7 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(username, password);
     if (!username) {
       showError("Username cannot be empty");
       return false;
@@ -32,11 +33,16 @@ export default function Login() {
     })
       .then((response) => {
         const ok = response.ok;
+        console.log(response);
         response
           .json()
           .then((data) => {
             if (!ok) {
-              throw new Error(data.message);
+              throw new Error(
+                data.status === 401
+                  ? "Incorrect username or password."
+                  : data.message
+              );
             }
             localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("userId", data.id);
@@ -72,7 +78,7 @@ export default function Login() {
           </h1>
           <input
             type="text"
-            placeholder="Username/Email"
+            placeholder="Username"
             className="w-full h-12 px-4 py-2 mb-6 text-sm sm:text-base lg:text-lg ring-1 backdrop-blur-sm ring-slate-600 bg-slate-700/40 rounded-lg text-white placeholder:text-slate-400 font-regular focus:outline-none hover:bg-slate-600/60 focus:bg-slate-600/60 duration-300 ease-in-out"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
