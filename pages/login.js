@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Nav from "../components/nav";
 import Link from "next/link";
+import { showError } from "../utils/verify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -28,19 +31,23 @@ export default function Login() {
       }),
     })
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          showError("Failed to log in. Please try again.");
-        }
-      })
-      .then((data) => {
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("userId", data.id);
-        localStorage.setItem("username", data.username);
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("isLoggedIn", true);
-        window.location.href = "/dashboard";
+        const ok = response.ok;
+        response
+          .json()
+          .then((data) => {
+            if (!ok) {
+              throw new Error(data.message);
+            }
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("userId", data.id);
+            localStorage.setItem("username", data.username);
+            localStorage.setItem("email", data.email);
+            localStorage.setItem("isLoggedIn", true);
+            window.location.href = "/dashboard";
+          })
+          .catch((error) => {
+            showError(error.message);
+          });
       })
       .catch((error) => {
         showError(error.message);
@@ -54,6 +61,7 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
+      <ToastContainer />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-60">
         <form
           className="flex flex-col items-center justify-around px-10 py-14 min-w-[30vw] min-h-[60vh] rounded-lg ring-1 backdrop-blur-sm ring-slate-600 bg-blue-950/30"
