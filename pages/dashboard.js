@@ -12,7 +12,7 @@ export default function Dashboard() {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [projects, setProjects] = useState([]);
-
+  const [showModal, setShowModal] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectGenre, setProjectGenre] = useState("");
   const [projectEnsemble, setProjectEnsemble] = useState("");
