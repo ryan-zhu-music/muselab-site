@@ -5,7 +5,13 @@ import Nav from "../../components/nav";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showError, showSuccess } from "../../utils/verify";
-import { FaDownload, FaEdit, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import {
+  FaDownload,
+  FaEdit,
+  FaTrash,
+  FaUserMinus,
+  FaUserPlus,
+} from "react-icons/fa";
 import Modal from "../../components/modal";
 import Button from "../../components/button";
 
@@ -23,6 +29,25 @@ export default function ProjectPage() {
   const [showModal, setShowModal] = useState("");
 
   const updateProject = () => {};
+
+  const deleteProject = () => {
+    fetch(`https://api.muselab.app/api/projects/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + authToken,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/dashboard";
+        } else {
+          throw new Error("Failed to delete project.");
+        }
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
 
   const addUser = () => {
     fetch(`https://api.muselab.app/api/projects/${id}/add/user`, {
@@ -232,10 +257,38 @@ export default function ProjectPage() {
               <b className="font-black">Genre: </b>
               {project.genre || "Unknown genre"}
             </p>
-            <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
-              <b className="font-black">Ensemble: </b>
-              {project.ensemble || "Unknown ensemble"}
-            </p>
+            <div className="w-full flex justify-between items-center">
+              <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
+                <b className="font-black">Ensemble: </b>
+                {project.ensemble || "Unknown ensemble"}
+              </p>
+              <Modal
+                preview={
+                  <FaTrash className="text-white/50 hover:text-white duration-300 ease-in-out text-2xl" />
+                }
+                content={
+                  <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-1 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
+                    <h1 className="text-xl font-normal text-white text-center">
+                      Are you sure you want to{" "}
+                      <b className="font-bold text-indigo-400">delete</b> this
+                      project?
+                    </h1>
+                    <p className="text-white/50 font-normal text-lg mb-3">
+                      This action <b className="text-rose-400">cannot</b> be
+                      undone.
+                    </p>
+                    <Button
+                      text="Delete"
+                      type="primary"
+                      onClick={deleteProject}
+                    />
+                  </div>
+                }
+                showModal={showModal}
+                setShowModal={setShowModal}
+                name={"edit"}
+              />
+            </div>
           </div>
           <div className="relative w-full h-2/3 flex flex-col gap-1 items-start justify-start rounded-xl p-8 ring-1 ring-slate-600 bg-blue-950/30 ">
             <h2 className="text-white w-full font-black text-lg sm:text-xl xl:text-2xl flex justify-between flex-row items-center">
