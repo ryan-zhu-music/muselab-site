@@ -99,7 +99,7 @@ export default function Dashboard() {
           Your <b className="text-teal-400">projects</b>
         </h2>
         <Modal
-          text="Create a new project"
+          preview={<Button text="Create a new project" />}
           content={
             <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-5 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
               <h1 className="text-2xl font-black text-white text-center">
