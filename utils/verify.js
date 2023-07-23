@@ -56,7 +56,6 @@ export const showError = (message) => {
   toast.error(message, {
     position: toast.POSITION.BOTTOM_RIGHT,
     autoClose: 5000,
-    closeOnClick: false,
     pauseOnHover: false,
     draggable: false,
     style: {
@@ -72,7 +71,6 @@ export const showSuccess = (message) => {
   toast.success(message, {
     position: toast.POSITION.BOTTOM_RIGHT,
     autoClose: 5000,
-    closeOnClick: false,
     pauseOnHover: false,
     draggable: false,
     style: {

@@ -129,10 +129,13 @@ export default function Dashboard() {
               <Button text="Create" type="primary" onClick={createProject} />
             </div>
           }
+          showModal={showModal}
+          setShowModal={setShowModal}
+          name="createProject"
         />
         {projects.length === 0 && (
           <p className="text-white/70 text-center mt-10">
-            You don't have any projects yet.{" "}
+            You don&apos;t have any projects yet.{" "}
           </p>
         )}
         <div className="flex flex-row flex-wrap justify-center items-start gap-5 mt-8">

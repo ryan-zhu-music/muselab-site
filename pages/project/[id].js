@@ -4,7 +4,7 @@ import Head from "next/head";
 import Nav from "../../components/nav";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showError } from "../../utils/verify";
+import { showError, showSuccess } from "../../utils/verify";
 import { FaDownload, FaEdit, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import Modal from "../../components/modal";
 import Button from "../../components/button";
@@ -13,34 +13,127 @@ export default function ProjectPage() {
   const router = useRouter();
   const { id } = router.query;
   const [project, setProject] = useState({});
-
+  const [authToken, setAuthToken] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectGenre, setProjectGenre] = useState("");
   const [projectEnsemble, setProjectEnsemble] = useState("");
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
+  const [file, setFile] = useState(null);
+  const [showModal, setShowModal] = useState("");
 
   const updateProject = () => {};
 
-  const removeUser = (index) => {};
+  const addUser = () => {
+    fetch(`https://api.muselab.app/api/projects/${id}/add/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      body: JSON.stringify({ username }),
+    })
+      .then((response) => {
+        console.log(response);
+        response
+          .json()
+          .then((data) => {
+            showSuccess("Added user " + username + ".");
+            window.location.href = "/project/" + id;
+          })
+          .catch((error) => {
+            showError(error.message);
+          });
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+    setShowModal("");
+  };
 
-  const downloadFile = (fileName) => {};
+  const removeUser = (user) => {
+    fetch(`https://api.muselab.app/api/projects/${id}/remove/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      body: JSON.stringify({ username: user }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        showSuccess("Removed user " + user + ".");
+        getProject();
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+    setShowModal("");
+  };
 
-  const addUser = () => {};
+  const addFile = (event) => {
+    if (!file) {
+      showError("Please select a file.");
+      return;
+    }
+    if (!message) {
+      showError("Please enter a version title.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", file.name);
+    formData.append("title", message);
+    formData.append("project_id", id);
+    fetch("https://api.muselab.app/api/files/upload", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + authToken,
+      },
+      body: formData,
+    })
+      .then((response) =>
+        response
+          .json()
+          .then((data) => {
+            showSuccess("Uploaded file " + file.name + ".");
+            getProject();
+          })
+          .catch((error) => showError(error.message))
+      )
+      .catch((error) => showError(error.message));
+    setShowModal("");
+  };
+
+  const downloadFile = (fileId) => {
+    fetch("https://api.muselab.app/api/files/get/" + fileId, {
+      headers: {
+        Authorization: "Bearer " + authToken,
+      },
+    })
+      .then((response) =>
+        response
+          .blob()
+          .then((blob) => {
+            const link = document.createElement("a");
+            blob = blob.slice(0, blob.size, "text/xml");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            link.click();
+            link.remove();
+          })
+          .catch((error) => showError(error.message))
+      )
+      .catch((error) => showError(error.message));
+  };
 
   const sortBy = (value) => {};
 
-  const addFile = () => {};
-
-  useEffect(() => {
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      window.location.href = "/login";
-    }
-    const token = localStorage.getItem("accessToken");
+  const getProject = () => {
     fetch("https://api.muselab.app/api/projects/get/" + id, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + authToken,
       },
     })
       .then((response) => {
@@ -48,8 +141,10 @@ export default function ProjectPage() {
           response
             .json()
             .then((data) => {
-              console.log(data);
               setProject(data);
+              setProjectTitle(data.name);
+              setProjectGenre(data.genre);
+              setProjectEnsemble(data.ensemble);
             })
             .catch((error) => {
               if (id) showError(error.message);
@@ -61,6 +156,14 @@ export default function ProjectPage() {
       .catch((error) => {
         if (id) showError(error.message);
       });
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "/login";
+    }
+    setAuthToken(localStorage.getItem("accessToken"));
+    getProject();
   }, [id]);
 
   return (
@@ -116,6 +219,9 @@ export default function ProjectPage() {
                     />
                   </div>
                 }
+                showModal={showModal}
+                setShowModal={setShowModal}
+                name={"edit"}
               />
             </div>
             <p className="text-white font-regular text-sm sm:text-lg xl:text-xl">
@@ -153,6 +259,9 @@ export default function ProjectPage() {
                     <Button text="Add" type="primary" onClick={addUser} />
                   </div>
                 }
+                showModal={showModal}
+                setShowModal={setShowModal}
+                name={"addUser"}
               />
             </h2>
             <p className="text-white/50 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
@@ -170,9 +279,30 @@ export default function ProjectPage() {
                         {user.username}
                       </p>
                       {user.username !== localStorage.getItem("username") && (
-                        <button onClick={() => removeUser(index)}>
-                          <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                        </button>
+                        <Modal
+                          preview={
+                            <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                          }
+                          content={
+                            <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-5 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
+                              <h1 className="text-xl font-normal text-white text-center">
+                                Are you sure you want to remove user{" "}
+                                <b className="text-teal-500 font-black">
+                                  {user.username}
+                                </b>{" "}
+                                from the project?
+                              </h1>
+                              <Button
+                                text="Confirm"
+                                type="primary"
+                                onClick={() => removeUser(user.username)}
+                              />
+                            </div>
+                          }
+                          showModal={showModal}
+                          setShowModal={setShowModal}
+                          name={"removeUser"}
+                        />
                       )}
                     </li>
                   ))}
@@ -199,9 +329,17 @@ export default function ProjectPage() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
+                  <input
+                    type="file"
+                    className="px-6 py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-base lg:text-lg font-black duration-300 ease-in-out bg-teal-500 ring-2 ring-teal-500/90 text-white hover:bg-teal-700/90 hover:text-white"
+                    onChange={(event) => setFile(event.target.files[0])}
+                  />
                   <Button text="Upload" type="primary" onClick={addFile} />
                 </div>
               }
+              showModal={showModal}
+              setShowModal={setShowModal}
+              name={"addFile"}
             />
           </h2>
           <div className="w-full flex justify-between items-center mb-3">
@@ -221,9 +359,9 @@ export default function ProjectPage() {
               Total: {project.files && project.files.length}
             </p>
           </div>
-          <div className="w-full flex items-center overflow-y-hidden justify-center bg-slate-500/60 rounded-xl p-3">
+          <div className="w-full h-full flex items-center overflow-y-hidden justify-center bg-slate-500/60 rounded-xl p-3">
             <ul className="relative flex w-full h-full overflow-y-scroll space-y-2 flex-col px-3 py-2">
-              {project.files &&
+              {project.files && project.files.length > 0 ? (
                 project.files.map((file, index) => (
                   <>
                     <li
@@ -250,7 +388,12 @@ export default function ProjectPage() {
                       <div className="w-full h-0.5 bg-white/20 my-1" />
                     )}
                   </>
-                ))}
+                ))
+              ) : (
+                <p className="text-white/50 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
+                  No files found.
+                </p>
+              )}
             </ul>
           </div>
         </div>
