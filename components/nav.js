@@ -11,6 +11,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    console.log(localStorage.getItem("isLoggedIn"));
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
@@ -123,7 +124,7 @@ export default function Nav() {
         <Image src="/assets/logo.png" alt="MuseLab" width={240} height={240} />
       </Link>
       <ul className="flex flex-row w-3/5 text-sm lg:text-lg font-black text-white justify-evenly">
-        {!isLoggedIn && (
+        {isLoggedIn && (
           <li>
             <Link
               href="/dashboard"

@@ -88,7 +88,7 @@ export default function ProjectPage() {
               {project.ensemble || "Unknown ensemble"}
             </p>
           </div>
-          <div className="relative w-full h-2/3 flex flex-col gap-1 items-start justify-center rounded-xl backdrop-blur-sm py-5 px-8 ring-1 ring-slate-600 bg-blue-950/30 ">
+          <div className="relative w-full h-2/3 flex flex-col gap-1 items-start justify-start rounded-xl backdrop-blur-sm p-8 ring-1 ring-slate-600 bg-blue-950/30 ">
             <h2 className="text-white w-full font-black text-lg sm:text-xl xl:text-2xl flex justify-between flex-row items-center">
               Contributors
               <button onClick={addUser}>
@@ -109,9 +109,11 @@ export default function ProjectPage() {
                       <p className="text-white font-black text-sm sm:text-lg xl:text-xl">
                         {user.username}
                       </p>
-                      <button onClick={() => removeUser(index)}>
-                        <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                      </button>
+                      {user.username !== localStorage.getItem("username") && (
+                        <button onClick={() => removeUser(index)}>
+                          <FaUserMinus className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                        </button>
+                      )}
                     </li>
                   ))}
               </ul>

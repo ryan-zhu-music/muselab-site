@@ -5,11 +5,51 @@ import Project from "../components/project";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showError } from "../utils/verify";
+import Button from "../components/button";
+import Modal from "../components/modal";
 
 export default function Dashboard() {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [projects, setProjects] = useState([]);
+
+  const [projectTitle, setProjectTitle] = useState("");
+  const [projectGenre, setProjectGenre] = useState("");
+  const [projectEnsemble, setProjectEnsemble] = useState("");
+
+  const createProject = () => {
+    fetch("https://api.muselab.app/api/projects/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        name: projectTitle || "Untitled",
+        genre: projectGenre || "Any",
+        ensemble: projectEnsemble || "Any",
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response
+            .json()
+            .then((data) => {
+              window.location.href = "/project/" + data.id;
+            })
+            .catch((error) => {
+              window.location.href = "/dashboard";
+              showError(error.message);
+            });
+        } else {
+          throw new Error("Failed to create project.");
+        }
+      })
+      .catch((error) => {
+        window.location.href = "/dashboard";
+        showError(error.message);
+      });
+  };
 
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -28,14 +68,12 @@ export default function Dashboard() {
             response
               .json()
               .then((data) => {
-                console.log(data);
                 setProjects(data);
               })
               .catch((error) => {
                 showError(error.message);
               });
           } else {
-            console.log(response);
             throw new Error("Failed to fetch projects.");
           }
         })
@@ -57,10 +95,47 @@ export default function Dashboard() {
         <h1 className="text-2xl font-black text-white mb-5 text-center">
           Welcome to MuseLab{username && ", " + username}!
         </h1>
-        <h2 className="text-5xl font-black text-white mb-10 text-center">
+        <h2 className="text-5xl font-black text-white mb-8 text-center">
           Your <b className="text-teal-400">projects</b>
         </h2>
-        <div className="flex flex-row flex-wrap justify-center items-start gap-5">
+        <Modal
+          text="Create a new project"
+          content={
+            <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-5 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
+              <h1 className="text-2xl font-black text-white text-center">
+                Create a new project
+              </h1>
+              <input
+                type="text"
+                placeholder="Title"
+                className="w-full h-10 px-3 rounded-lg bg-slate-900/60 text-white/70 focus:outline-none focus:ring-1 focus:ring-slate-600"
+                value={projectTitle}
+                onChange={(e) => setProjectTitle(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Genre"
+                className="w-full h-10 px-3 rounded-lg bg-slate-900/60 text-white/70 focus:outline-none focus:ring-1 focus:ring-slate-600"
+                value={projectGenre}
+                onChange={(e) => setProjectGenre(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Ensemble"
+                className="w-full h-10 px-3 rounded-lg bg-slate-900/60 text-white/70 focus:outline-none focus:ring-1 focus:ring-slate-600"
+                value={projectEnsemble}
+                onChange={(e) => setProjectEnsemble(e.target.value)}
+              />
+              <Button text="Create" type="primary" onClick={createProject} />
+            </div>
+          }
+        />
+        {projects.length === 0 && (
+          <p className="text-white/70 text-center mt-10">
+            You don't have any projects yet.{" "}
+          </p>
+        )}
+        <div className="flex flex-row flex-wrap justify-center items-start gap-5 mt-8">
           {projects.map((project, index) => (
             <Project key={index} project={project} />
           ))}
