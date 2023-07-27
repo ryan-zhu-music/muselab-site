@@ -28,7 +28,39 @@ export default function ProjectPage() {
   const [file, setFile] = useState(null);
   const [showModal, setShowModal] = useState("");
 
-  const updateProject = () => {};
+  const updateProject = () => {
+    let newProject = {};
+    if (projectTitle) newProject.name = projectTitle;
+    if (projectGenre) newProject.genre = projectGenre;
+    if (projectEnsemble) newProject.ensemble = projectEnsemble;
+    fetch(`https://api.muselab.app/api/projects/update/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      body: JSON.stringify(newProject),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response
+            .json()
+            .then((data) => {
+              showSuccess("Updated project details.");
+              getProject();
+            })
+            .catch((error) => {
+              showError(error.message);
+            });
+        } else {
+          throw new Error("Failed to update project.");
+        }
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+    setShowModal("");
+  };
 
   const deleteProject = () => {
     fetch(`https://api.muselab.app/api/projects/delete/${id}`, {
@@ -161,7 +193,6 @@ export default function ProjectPage() {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("accessToken"),
       },
-      mode: "no-cors",
     })
       .then((response) => {
         if (response.ok) {
