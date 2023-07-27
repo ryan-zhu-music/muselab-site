@@ -241,6 +241,7 @@ export default function ProjectPage() {
             sensitivity: "base",
           });
         });
+        break;
       case "oldest":
         newProject.files.sort((a, b) => {
           return new Date(a.date).getTime() - new Date(b.date).getTime();
