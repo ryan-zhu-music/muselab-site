@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import Nav from "../components/nav";
-import Project from "../components/project";
+import Nav from "../../components/nav";
+import Project from "../../components/project";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showError } from "../utils/verify";
-import Button from "../components/button";
-import Modal from "../components/modal";
+import { showError } from "../../utils/verify";
+import Button from "../../components/button";
+import Modal from "../../components/modal";
 
 export default function Dashboard() {
   const [username, setUsername] = useState("");

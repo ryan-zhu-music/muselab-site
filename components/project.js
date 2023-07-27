@@ -13,7 +13,7 @@ export default function Project({ project }) {
       <p className="relative z-10 text-white/50 font-regular text-xs sm:text-base xl:text-lg mb-2">
         Versions: {project.files.length}
       </p>
-      <Button onClick={"/project/" + project.projectId} text="Edit project" />
+      <Button onClick={"/projects/" + project.projectId} text="Edit project" />
     </section>
   );
 }

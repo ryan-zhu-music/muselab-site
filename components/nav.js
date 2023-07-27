@@ -50,10 +50,10 @@ export default function Nav() {
             {isLoggedIn && (
               <li>
                 <Link
-                  href="/dashboard"
+                  href="/projects"
                   className="hover:text-teal-500 duration-300 ease-in-out"
                 >
-                  Dashboard
+                  Projects
                 </Link>
               </li>
             )}
@@ -98,7 +98,7 @@ export default function Nav() {
                   onClick={() => {
                     setIsLoggedIn(false);
                     localStorage.setItem("isLoggedIn", false);
-                    if (window.location.pathname == "/dashboard")
+                    if (window.location.pathname == "/projects")
                       window.location.href = "/";
                   }}
                   type="primary"
@@ -127,10 +127,10 @@ export default function Nav() {
         {isLoggedIn && (
           <li>
             <Link
-              href="/dashboard"
+              href="/projects"
               className="hover:text-teal-500 duration-300 ease-in-out"
             >
-              Dashboard
+              Projects
             </Link>
           </li>
         )}
@@ -176,7 +176,7 @@ export default function Nav() {
             onClick={() => {
               setIsLoggedIn(false);
               localStorage.setItem("isLoggedIn", false);
-              if (window.location.pathname == "/dashboard")
+              if (window.location.pathname == "/projects")
                 window.location.href = "/";
             }}
             type="primary"
