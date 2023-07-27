@@ -57,6 +57,8 @@ export default function Dashboard() {
     } else {
       setUsername(localStorage.getItem("username"));
       setToken(localStorage.getItem("accessToken"));
+
+      console.log(token);
       fetch("https://api.muselab.app/api/projects/list", {
         method: "GET",
         headers: {

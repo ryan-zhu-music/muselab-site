@@ -155,11 +155,13 @@ export default function ProjectPage() {
   const sortBy = (value) => {};
 
   const getProject = () => {
+    console.log(authToken);
     fetch("https://api.muselab.app/api/projects/get/" + id, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + authToken,
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
       },
+      mode: "no-cors",
     })
       .then((response) => {
         if (response.ok) {

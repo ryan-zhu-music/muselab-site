@@ -4,6 +4,7 @@ import Spinner from "../components/spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showError } from "../utils/verify";
+import jwtDecode from "jwt-decode";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -12,9 +13,11 @@ function MyApp({ Component, pageProps }) {
     if (!token) {
       return;
     }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
+    try {
+      return jwtDecode(token);
+    } catch (e) {
+      return null;
+    }
   };
 
   useEffect(() => {

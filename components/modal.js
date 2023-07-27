@@ -17,6 +17,6 @@ export default function Modal({
       {content}
     </div>
   ) : (
-    <button onClick={() => setShowModal(name)}>{preview}</button>
+    <div onClick={() => setShowModal(name)}>{preview}</div>
   );
 }
