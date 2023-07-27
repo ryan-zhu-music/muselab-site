@@ -8,7 +8,7 @@ import { showError } from "../../utils/verify";
 import Button from "../../components/button";
 import Modal from "../../components/modal";
 
-export default function Dashboard() {
+export default function Projects() {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [projects, setProjects] = useState([]);
@@ -38,7 +38,7 @@ export default function Dashboard() {
               window.location.href = "/project/" + data.id;
             })
             .catch((error) => {
-              window.location.href = "/dashboard";
+              window.location.href = "/projects";
               showError(error.message);
             });
         } else {
@@ -46,7 +46,7 @@ export default function Dashboard() {
         }
       })
       .catch((error) => {
-        window.location.href = "/dashboard";
+        window.location.href = "/projects";
         showError(error.message);
       });
   };

@@ -49,7 +49,7 @@ export default function Login() {
             localStorage.setItem("username", data.username);
             localStorage.setItem("email", data.email);
             localStorage.setItem("isLoggedIn", true);
-            window.location.href = "/dashboard";
+            window.location.href = "/projects";
           })
           .catch((error) => {
             showError(error.message);

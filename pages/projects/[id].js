@@ -73,7 +73,7 @@ export default function ProjectPage() {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = "/dashboard";
+          window.location.href = "/projects";
         } else {
           throw new Error("Failed to delete project.");
         }
