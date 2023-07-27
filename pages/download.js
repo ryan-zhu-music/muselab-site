@@ -31,7 +31,7 @@ export default function Download() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-      <main className="w-screen h-screen py-24 flex flex-col items-center justify-evenly bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
+      <main className="w-screen h-screen py-24 flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
         <h1 className="text-center text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black text-white portrait:mb-3 mb-6">
           Download MuseLab
         </h1>
