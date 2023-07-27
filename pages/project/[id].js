@@ -174,12 +174,16 @@ export default function ProjectPage() {
   };
 
   const deleteFile = (fileId) => {
-    fetch("https://api.muselab.app/api/files/delete/" + fileId, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + authToken,
-      },
-    })
+    console.log(project);
+    fetch(
+      `https://api.muselab.app/api/projects/get/${project.projectId}/files/delete/${fileId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + authToken,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           showSuccess("Deleted file.");
