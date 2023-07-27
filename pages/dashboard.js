@@ -94,10 +94,10 @@ export default function Dashboard() {
       <Nav />
       <ToastContainer />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
-        <h1 className="text-2xl font-black text-white mb-5 text-center">
+        <h1 className="text-lg md:text-xl lg:text-2xl font-black text-white mb-5 text-center">
           Welcome to MuseLab{username && ", " + username}!
         </h1>
-        <h2 className="text-5xl font-black text-white mb-8 text-center">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8 text-center">
           Your <b className="text-teal-400">projects</b>
         </h2>
         <Modal

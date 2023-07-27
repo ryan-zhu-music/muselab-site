@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Button from "./button";
-
 export default function Modal({
   preview,
   content,
@@ -14,9 +12,11 @@ export default function Modal({
         className="w-screen h-screen z-40 fixed top-0 left-0 bg-blue-950 bg-opacity-50 backdrop-blur-md"
         onClick={() => setShowModal("")}
       />
-      {content}
+      <div className="px-5 z-40">{content}</div>
     </div>
   ) : (
-    <div onClick={() => setShowModal(name)}>{preview}</div>
+    <div onClick={() => setShowModal(name)} className="cursor-pointer">
+      {preview}
+    </div>
   );
 }

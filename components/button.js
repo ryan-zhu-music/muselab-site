@@ -12,7 +12,7 @@ export default function Button({ text, onClick, type }) {
     return (
       <a
         href={onClick}
-        className={`px-6 py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-base lg:text-lg font-black duration-300 ease-in-out ${style}`}
+        className={`px-4 py-1 lg:px-6 lg:py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-base lg:text-lg font-black duration-300 ease-in-out ${style}`}
       >
         {text}
       </a>
@@ -22,7 +22,7 @@ export default function Button({ text, onClick, type }) {
   return (
     <button
       onClick={onClick}
-      className={`px-6 py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-base lg:text-lg font-black duration-300 ease-in-out ${style}`}
+      className={`px-4 py-1 lg:px-6 lg:py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-base lg:text-lg font-black duration-300 ease-in-out ${style}`}
     >
       {text}
     </button>
