@@ -28,6 +28,7 @@ export default function ProjectPage() {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [showModal, setShowModal] = useState("");
+  const [sortMethod, setSortMethod] = useState("newest");
 
   const updateProject = () => {
     let newProject = {};
@@ -172,8 +173,27 @@ export default function ProjectPage() {
     setShowModal("");
   };
 
+  const deleteFile = (fileId) => {
+    fetch("https://api.muselab.app/api/files/delete/" + fileId, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + authToken,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          showSuccess("Deleted file.");
+          getProject();
+        } else {
+          console.log(response);
+          throw new Error("Failed to delete file.");
+        }
+      })
+      .catch((error) => showError(error.message));
+    setShowModal("");
+  };
+
   const downloadFile = (fileId, fileName) => {
-    console.log(fileId);
     fetch("https://api.muselab.app/api/files/get/" + fileId, {
       headers: {
         Authorization: "Bearer " + authToken,
@@ -195,7 +215,41 @@ export default function ProjectPage() {
       .catch((error) => showError(error.message));
   };
 
-  const sortBy = (value) => {};
+  const sortBy = (value) => {
+    if (!project.files) return;
+    const newProject = { ...project };
+    switch (value) {
+      case "title":
+        newProject.files.sort((a, b) => {
+          return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+        });
+        break;
+      case "user":
+        newProject.files.sort((a, b) => {
+          return a.user.username.localeCompare(b.user.username, "en", {
+            sensitivity: "base",
+          });
+        });
+        break;
+      case "filename":
+        newProject.files.sort((a, b) => {
+          return a.fileName.localeCompare(b.fileName, "en", {
+            sensitivity: "base",
+          });
+        });
+      case "oldest":
+        newProject.files.sort((a, b) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
+        break;
+      default:
+        newProject.files.sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        break;
+    }
+    setProject(newProject);
+  };
 
   const getProject = () => {
     fetch("https://api.muselab.app/api/projects/get/" + id, {
@@ -209,10 +263,10 @@ export default function ProjectPage() {
           response
             .json()
             .then((data) => {
-              setProject(data);
               setProjectTitle(data.name);
               setProjectGenre(data.genre);
               setProjectEnsemble(data.ensemble);
+              setProject(data);
             })
             .catch((error) => {
               if (id) showError(error.message);
@@ -236,6 +290,10 @@ export default function ProjectPage() {
     }
   }, [id]);
 
+  useEffect(() => {
+    sortBy(sortMethod);
+  }, [sortMethod]);
+
   return (
     <div className="w-screen h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Head>
@@ -257,7 +315,7 @@ export default function ProjectPage() {
                   <FaEdit className="text-white/50 hover:text-white duration-300 ease-in-out text-lg md:text-xl lg:text-2xl" />
                 }
                 content={
-                  <div className="z-50 px-10 lg:w-1/3 py-8 flex flex-col items-center justify-center ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
+                  <div className="z-50 px-10 py-8 flex flex-col items-center justify-center ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
                     <h1 className="text-xl lg:text-2xl font-black text-white text-center">
                       Edit project details
                     </h1>
@@ -454,12 +512,23 @@ export default function ProjectPage() {
               Sort by:
               <select
                 className="bg-transparent text-white/50 focus:outline-none "
-                onChange={(e) => sortBy(e.target.value)}
+                onChange={(e) => setSortMethod(e.target.value)}
               >
-                <option value="alphabetical">Newest</option>
-                <option value="date">Oldest</option>
-                <option value="alphabetical">Name</option>
-                <option value="date">User</option>
+                <option value="newest" className="text-xs lg:text-sm">
+                  Newest
+                </option>
+                <option value="oldest" className="text-xs lg:text-sm">
+                  Oldest
+                </option>
+                <option value="title" className="text-xs lg:text-sm">
+                  Title
+                </option>
+                <option value="user" className="text-xs lg:text-sm">
+                  User
+                </option>
+                <option value="filename" className="text-xs lg:text-sm">
+                  File name
+                </option>
               </select>
             </p>
             <p className="text-white/50 font-regular text-right text-xs sm:text-sm lg:text-base xl:text-lg">
@@ -472,19 +541,50 @@ export default function ProjectPage() {
                 project.files.map((file, index) => (
                   <>
                     <li
-                      className="relative py-4 min-h-[50px] px-2 w-full flex flex-col items-start justify-start"
+                      className="py-4 min-h-[50px] px-2 w-full flex flex-col items-start justify-start"
                       key={index}
                     >
                       <div className="w-full flex flex-row items-center justify-between">
                         <h3 className="text-white font-black text-sm sm:text-lg xl:text-xl">
                           {file.title}
                         </h3>
-                        <button
-                          className="text-white/50 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
-                          onClick={() => downloadFile(file.id, file.fileName)}
-                        >
-                          <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                        </button>
+                        <div className="flex flex-row space-x-5">
+                          <Modal
+                            preview={
+                              <FaTrash className="text-white/50 hover:text-white duration-300 ease-in-out text-lg md:text-xl lg:text-2xl" />
+                            }
+                            content={
+                              <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-1 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
+                                <h1 className="text-xl font-normal text-white text-center">
+                                  Are you sure you want to{" "}
+                                  <b className="font-bold text-indigo-400">
+                                    delete
+                                  </b>{" "}
+                                  this file?
+                                </h1>
+                                <p className="text-white/50 font-normal text-lg mb-3">
+                                  This action{" "}
+                                  <b className="text-rose-400">cannot</b> be
+                                  undone.
+                                </p>
+                                <Button
+                                  text="Delete"
+                                  type="primary"
+                                  onClick={() => deleteFile(file.id)}
+                                />
+                              </div>
+                            }
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            name={"deleteFile"}
+                          />
+                          <button
+                            className="text-white/50 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
+                            onClick={() => downloadFile(file.id, file.fileName)}
+                          >
+                            <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                          </button>
+                        </div>
                       </div>
                       <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base">
                         File name: {file.fileName || "Unknown"}
