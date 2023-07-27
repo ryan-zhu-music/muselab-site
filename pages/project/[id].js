@@ -136,6 +136,14 @@ export default function ProjectPage() {
       showError("Please enter a version title.");
       return;
     }
+    if (
+      file.type !== "application/x-musescore" &&
+      !file.name.endsWith(".mscz") &&
+      !file.name.endsWith(".mscx")
+    ) {
+      showError("Please upload a MuseScore file.");
+      return;
+    }
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", file.name);
@@ -152,6 +160,9 @@ export default function ProjectPage() {
         response
           .json()
           .then((data) => {
+            if (data.error) {
+              throw new Error(data.error);
+            }
             showSuccess("Uploaded file " + file.name + ".");
             getProject();
           })
@@ -161,7 +172,8 @@ export default function ProjectPage() {
     setShowModal("");
   };
 
-  const downloadFile = (fileId) => {
+  const downloadFile = (fileId, fileName) => {
+    console.log(fileId);
     fetch("https://api.muselab.app/api/files/get/" + fileId, {
       headers: {
         Authorization: "Bearer " + authToken,
@@ -174,7 +186,7 @@ export default function ProjectPage() {
             const link = document.createElement("a");
             blob = blob.slice(0, blob.size, "text/xml");
             link.href = window.URL.createObjectURL(blob);
-            link.download = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            link.download = fileName;
             link.click();
             link.remove();
           })
@@ -420,7 +432,7 @@ export default function ProjectPage() {
                   <input
                     type="text"
                     placeholder="Version title"
-                    className="w-11/12 h-10 px-3 rounded-lg bg-slate-900/60 text-white/70 font-normal text-sm md:text-base text-lg focus:outline-none focus:ring-1 focus:ring-slate-600"
+                    className="w-11/12 h-10 px-3 rounded-lg bg-slate-900/60 text-white/70 font-normal text-sm md:text-base lg:text-lg focus:outline-none focus:ring-1 focus:ring-slate-600"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
@@ -455,7 +467,7 @@ export default function ProjectPage() {
             </p>
           </div>
           <div className="w-full h-full flex items-center overflow-y-hidden justify-center bg-slate-500/60 rounded-xl p-3">
-            <ul className="relative flex w-full h-full overflow-y-scroll space-y-2 flex-col px-3 py-2">
+            <ul className="relative w-full h-full overflow-y-scroll space-y-2 px-3 py-2">
               {project.files && project.files.length > 0 ? (
                 project.files.map((file, index) => (
                   <>
@@ -463,21 +475,27 @@ export default function ProjectPage() {
                       className="relative py-4 min-h-[50px] px-2 w-full flex flex-col items-start justify-start"
                       key={index}
                     >
-                      <h3 className="text-white font-black text-sm sm:text-lg xl:text-xl">
-                        {file.title}
-                      </h3>
-                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
-                        {file.date}
+                      <div className="w-full flex flex-row items-center justify-between">
+                        <h3 className="text-white font-black text-sm sm:text-lg xl:text-xl">
+                          {file.title}
+                        </h3>
+                        <button
+                          className="text-white/50 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
+                          onClick={() => downloadFile(file.id, file.fileName)}
+                        >
+                          <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
+                        </button>
+                      </div>
+                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base">
+                        File name: {file.fileName || "Unknown"}
                       </p>
-                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base xl:text-lg">
-                        {file.author}
+                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base">
+                        Date uploaded:{" "}
+                        {new Date(file.date).toLocaleString() || "Unknown"}
                       </p>
-                      <button
-                        className="text-white/50 absolute top-1 right-4 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
-                        onClick={() => downloadFile(file.fileName)}
-                      >
-                        <FaDownload className="text-white/50 hover:text-white duration-300 ease-in-out" />
-                      </button>
+                      <p className="text-white/50 ml-5 font-regular text-xs sm:text-sm lg:text-base">
+                        Uploaded by: {file.user.username || "Unknown"}
+                      </p>
                     </li>
                     {index < project.files.length - 1 && (
                       <div className="w-full h-0.5 bg-white/20 my-1" />
