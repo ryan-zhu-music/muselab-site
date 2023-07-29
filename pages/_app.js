@@ -10,13 +10,16 @@ function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("accessToken");
     const parsedToken = parseJwt(token);
     if (parsedToken) {
       if (parsedToken.exp * 1000 < Date.now()) {
         showError("Your session has expired. Please log in again.");
         localStorage.clear();
       }
+    } else {
+      showError("Your session has expired. Please log in again.");
+      localStorage.clear();
     }
     setLoading(false);
   }, []);

@@ -174,7 +174,6 @@ export default function ProjectPage() {
   };
 
   const deleteFile = (fileId) => {
-    console.log(project);
     fetch(
       `https://api.muselab.app/api/projects/get/${project.projectId}/files/delete/${fileId}`,
       {
@@ -189,7 +188,6 @@ export default function ProjectPage() {
           showSuccess("Deleted file.");
           getProject();
         } else {
-          console.log(response);
           throw new Error("Failed to delete file.");
         }
       })

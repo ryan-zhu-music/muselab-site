@@ -33,7 +33,6 @@ export default function Plugin() {
     formData.append("file", file);
     let url = "upload";
     if (file.type === "application/zip") {
-      console.log("zip file");
       url += "-zip";
     }
     fetch("https://api.muselab.app/api/plugin/" + url, {

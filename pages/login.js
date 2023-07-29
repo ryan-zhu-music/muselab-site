@@ -12,7 +12,6 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(username, password);
     if (!username) {
       showError("Username cannot be empty");
       return false;
@@ -33,7 +32,6 @@ export default function Login() {
     })
       .then((response) => {
         const ok = response.ok;
-        console.log(response);
         response
           .json()
           .then((data) => {
