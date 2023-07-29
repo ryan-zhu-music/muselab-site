@@ -11,7 +11,6 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(localStorage.getItem("isLoggedIn"));
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 

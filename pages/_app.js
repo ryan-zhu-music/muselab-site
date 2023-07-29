@@ -4,21 +4,10 @@ import Spinner from "../components/spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showError } from "../utils/verify";
-import jwtDecode from "jwt-decode";
+import parseJwt from "../utils/parse";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
-
-  const parseJwt = (token) => {
-    if (!token) {
-      return;
-    }
-    try {
-      return jwtDecode(token);
-    } catch (e) {
-      return null;
-    }
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");

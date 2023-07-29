@@ -128,7 +128,7 @@ export default function ProjectPage() {
     setShowModal("");
   };
 
-  const addFile = (event) => {
+  const addFile = () => {
     if (!file) {
       showError("Please select a file.");
       return;
