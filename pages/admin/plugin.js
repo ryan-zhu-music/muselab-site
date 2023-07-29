@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { middleware } from "../middleware";
+import { middleware } from "../../middleware";
 import Spinner from "../../components/spinner";
-import parseJwt from "../../utils/parse";
 import { showError, showSuccess } from "../../utils/verify";
 import Button from "../../components/button";
 
