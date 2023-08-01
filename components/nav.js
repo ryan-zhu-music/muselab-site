@@ -4,6 +4,8 @@ import Button from "./button";
 import Link from "next/link";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import { HiMenu } from "react-icons/hi";
+import { showError, showSuccess } from "../utils/verify";
+import { ToastContainer } from "react-toastify";
 
 export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,9 +16,37 @@ export default function Nav() {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
+  const logout = () => {
+    fetch("https://api.muselab.app/api/auth/logout", {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          showSuccess("Logged out successfully");
+          setIsLoggedIn(false);
+          localStorage.clear();
+          console.log(
+            window.location.pathname,
+            window.location.pathname.includes("projects")
+          );
+          if (window.location.pathname.includes("projects"))
+            window.location.href = "/";
+        } else {
+          throw new Error("Something went wrong");
+        }
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
+
   if (width < 900) {
     return (
       <nav className="w-screen pt-3 fixed z-30 top-0 flex flex-row justify-between items-center px-6 md:px-12">
+        <ToastContainer />
         <Link href="/">
           <Image
             src="/assets/logo.png"
@@ -92,16 +122,7 @@ export default function Nav() {
             </li>
             <li className="w-1/3">
               {isLoggedIn ? (
-                <Button
-                  text="Log out"
-                  onClick={() => {
-                    setIsLoggedIn(false);
-                    localStorage.setItem("isLoggedIn", false);
-                    if (window.location.pathname == "/projects")
-                      window.location.href = "/";
-                  }}
-                  type="primary"
-                />
+                <Button text="Log out" onClick={logout} type="primary" />
               ) : (
                 <Button text="Log in" onClick="/login" type="secondary" />
               )}
@@ -170,16 +191,7 @@ export default function Nav() {
       </ul>
       <div className="flex items-center justify-center h-full space-x-4">
         {isLoggedIn ? (
-          <Button
-            text="Log out"
-            onClick={() => {
-              setIsLoggedIn(false);
-              localStorage.setItem("isLoggedIn", false);
-              if (window.location.pathname == "/projects")
-                window.location.href = "/";
-            }}
-            type="primary"
-          />
+          <Button text="Log out" onClick={logout} type="primary" />
         ) : (
           <>
             <Button text="Log in" onClick="/login" type="secondary" />

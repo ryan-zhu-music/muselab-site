@@ -17,9 +17,6 @@ function MyApp({ Component, pageProps }) {
         showError("Your session has expired. Please log in again.");
         localStorage.clear();
       }
-    } else {
-      showError("Your session has expired. Please log in again.");
-      localStorage.clear();
     }
     setLoading(false);
   }, []);

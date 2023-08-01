@@ -35,7 +35,7 @@ export default function Projects() {
           response
             .json()
             .then((data) => {
-              window.location.href = "/project/" + data.id;
+              window.location.href = "/projects/" + data.id;
             })
             .catch((error) => {
               window.location.href = "/projects";
