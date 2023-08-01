@@ -28,11 +28,10 @@ export default function Nav() {
           showSuccess("Logged out successfully");
           setIsLoggedIn(false);
           localStorage.clear();
-          console.log(
-            window.location.pathname,
-            window.location.pathname.includes("projects")
-          );
-          if (window.location.pathname.includes("projects"))
+          if (
+            window.location.pathname.includes("projects") ||
+            window.location.pathname.includes("admin")
+          )
             window.location.href = "/";
         } else {
           throw new Error("Something went wrong");

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { middleware } from "../../middleware";
 import Spinner from "../../components/spinner";
 import { showError, showSuccess } from "../../utils/verify";
 import Button from "../../components/button";
+import { ToastContainer } from "react-toastify";
+import Nav from "../../components/nav";
 
 export default function Plugin() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -12,20 +13,33 @@ export default function Plugin() {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
+    if (!accessToken || !localStorage.getItem("isLoggedIn")) {
       window.location.href = "/login";
     }
-    const req = {
+    setAuthToken(accessToken);
+    fetch("https://api.muselab.app/api/auth/roles", {
+      method: "GET",
       headers: {
         authorization: `Bearer ${accessToken}`,
       },
-    };
-    if (middleware(req).status === 401) {
-      window.location.href = "/";
-    } else {
-      setAuthenticated(true);
-      setAuthToken(accessToken);
-    }
+    })
+      .then((response) => {
+        if (response.ok) {
+          response
+            .json()
+            .then((data) => {
+              if (!data.includes("ROLE_ADMIN")) {
+                window.location.href = "/";
+              } else setAuthenticated(true);
+            })
+            .catch((error) => {
+              showError(error.message);
+            });
+        } else throw new Error("Not authenticated");
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
   }, []);
 
   const uploadPlugin = (file) => {
@@ -67,6 +81,8 @@ export default function Plugin() {
         <title>MuseLab</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <ToastContainer />
+      <Nav />
       <main className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
         <h1 className="text-3xl lg:text-4xl font-black text-white mb-10 mt-2">
           Upload Plugin
