@@ -4,6 +4,7 @@ import Nav from "../components/nav";
 import Downloader from "../components/downloader";
 import { FaWindows, FaApple, FaLinux } from "react-icons/fa";
 import { MdFolderZip } from "react-icons/md";
+import { showError, showSuccess } from "../utils/verify";
 
 const downloads = [
   {
@@ -24,6 +25,32 @@ const downloads = [
 ];
 
 export default function Download() {
+  const downloadZip = () => {
+    fetch("https://api.muselab.app/api/plugin/download", {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.blob().then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Muselab.zip";
+            a.click();
+            showSuccess("Downloaded successfully!");
+          });
+        } else {
+          throw new Error("Something went wrong.");
+        }
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
+
   return (
     <div className="w-screen h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Head>
@@ -58,11 +85,20 @@ export default function Download() {
           Or, if you prefer to install MuseLab{" "}
           <b className="text-orange-300">manually:</b>
         </p>
-        <Downloader
-          title="Zip file"
-          filename="MuseLab.zip"
-          icon={<MdFolderZip />}
-        />
+        <button
+          className="relative flex flex-col items-center justify-center rounded-lg backdrop-blur-sm py-[2vh] ring-1 ring-slate-600 bg-blue-950/30 hover:scale-105 hover:shadow-sm duration-300 ease-in-out portrait:w-2/3 w-1/4"
+          onClick={downloadZip}
+        >
+          <div className="absolute z-0 w-full h-full flex flex-col items-center justify-center text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-slate-700/50">
+            <MdFolderZip />
+          </div>
+          <h2 className="relative z-10 text-base sm:text-lg md:text-xl xl:text-3xl font-black text-white">
+            Zip file
+          </h2>
+          <p className="relative z-10 text-white/50 font-regular text-xs sm:text-base xl:text-lg">
+            Muselab.zip
+          </p>
+        </button>
       </main>
       <footer className="w-screen h-20 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
         <p className="text-white/20 font-medium text-xs lg:text-sm">
