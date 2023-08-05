@@ -9,17 +9,17 @@ import { showError, showSuccess } from "../utils/verify";
 const downloads = [
   {
     title: "Windows",
-    filename: "muselab-win.exe",
+    filename: "installer-win.exe",
     icon: <FaWindows />,
   },
   {
     title: "MacOS",
-    filename: "muselab-mac",
+    filename: "installer-macos",
     icon: <FaApple />,
   },
   {
     title: "Linux",
-    filename: "muselab-linux",
+    filename: "installer-linux",
     icon: <FaLinux />,
   },
 ];
