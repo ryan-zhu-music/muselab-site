@@ -4,7 +4,12 @@ import Spinner from "../../components/spinner";
 import { showError, showSuccess } from "../../utils/verify";
 import { ToastContainer } from "react-toastify";
 import Nav from "../../components/nav";
-import ReactJson from "react-json-view";
+import dynamic from "next/dynamic";
+
+const DynamicReactJson = dynamic(() => import("../../components/jsonpreview"), {
+  ssr: false,
+  loading: () => <Spinner />,
+});
 
 export default function Plugin() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -59,7 +64,6 @@ export default function Plugin() {
           response
             .json()
             .then((data) => {
-              console.log(data);
               setStats(data);
             })
             .catch((error) => {
@@ -86,9 +90,7 @@ export default function Plugin() {
         <h1 className="text-3xl lg:text-4xl font-black text-white mb-10 mt-2">
           Admin Stats
         </h1>
-        <div className="w-full overflow-y-scroll">
-          <ReactJson src={stats} theme="harmonic" style={{ width: "100%" }} />
-        </div>
+        {stats ? <DynamicReactJson json={stats} /> : <Spinner />}
       </main>
     </div>
   ) : (
