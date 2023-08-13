@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
+    "etl": "^0.7.0",
+    "fs": "^0.0.1-security",
+    "jszip": "^3.10.1",
     "jwt-decode": "^3.1.2",
     "next": "13.4.10",
     "react": "18.2.0",

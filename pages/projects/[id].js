@@ -16,6 +16,8 @@ import {
 import Modal from "../../components/modal";
 import Button from "../../components/button";
 
+import JSZip from "jszip";
+
 export default function ProjectPage() {
   const router = useRouter();
   const { id } = router.query;
@@ -128,23 +130,7 @@ export default function ProjectPage() {
     setShowModal("");
   };
 
-  const addFile = () => {
-    if (!file) {
-      showError("Please select a file.");
-      return;
-    }
-    if (!message) {
-      showError("Please enter a version title.");
-      return;
-    }
-    if (
-      file.type !== "application/x-musescore" &&
-      !file.name.endsWith(".mscz") &&
-      !file.name.endsWith(".mscx")
-    ) {
-      showError("Please upload a MuseScore file.");
-      return;
-    }
+  const addFile = (file) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", file.name);
@@ -281,6 +267,57 @@ export default function ProjectPage() {
       .catch((error) => {
         if (id) showError(error.message);
       });
+  };
+
+  const unzipFile = () => {
+    // verif
+    if (!file) {
+      showError("Please select a file.");
+      return;
+    }
+    if (!message) {
+      showError("Please enter a version title.");
+      return;
+    }
+    if (
+      file.type !== "application/x-musescore" &&
+      !file.name.endsWith(".mscz") &&
+      !file.name.endsWith(".mscx")
+    ) {
+      showError("Please upload a MuseScore file.");
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.onload = (event) => {
+      let zip = new JSZip();
+      zip
+        .loadAsync(event.target.result)
+        .then((zipData) => {
+          let promises = [];
+          zipData.forEach((relativePath, zipEntry) => {
+            promises.push(
+              zipEntry.async("blob").then((fileData) => {
+                // Create a new file object with the extracted file data
+                let extractedFile = new File([fileData], zipEntry.name, {
+                  type: fileData.type,
+                });
+                // Upload the extracted file using the existing uploadFile function
+                if (zipEntry.name.endsWith(".mscx")) addFile(extractedFile);
+              })
+            );
+          });
+          // Wait for all extraction and upload operations to complete
+          Promise.all(promises).catch((error) => {
+            showError("Error during file extraction or upload:" + error);
+          });
+        })
+        .catch((error) => {
+          showError("Error while loading zip:" + error);
+        });
+    };
+    // unzip file
+    reader.readAsArrayBuffer(file);
   };
 
   useEffect(() => {
@@ -502,7 +539,7 @@ export default function ProjectPage() {
                     className="w-11/12 px-6 py-2 rounded-lg flex items-center justify-center whitespace-nowrap text-sm md:text-base lg:text-lg font-black duration-300 ease-in-out bg-teal-500 ring-2 ring-teal-500/90 text-white hover:bg-teal-700/90 hover:text-white"
                     onChange={(event) => setFile(event.target.files[0])}
                   />
-                  <Button text="Upload" type="primary" onClick={addFile} />
+                  <Button text="Upload" type="primary" onClick={unzipFile} />
                 </div>
               }
               showModal={showModal}
