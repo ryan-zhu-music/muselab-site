@@ -33,10 +33,11 @@ export default function Forgot() {
     <div className="w-screen h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Head>
         <title>MuseLab</title>
-        <description>
-          A free plugin for MuseScore 3 enabling real-time collaboration with
-          other users.
-        </description>
+        <meta
+          name="description"
+          content="A free plugin for MuseScore 3 enabling real-time collaboration with
+          other users."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
