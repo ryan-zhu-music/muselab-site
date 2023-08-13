@@ -81,9 +81,11 @@ export default function Admin() {
   const search = () => {
     fetch("https://api.muselab.app/api/logging/search", {
       method: "POST",
-      authorization: `Bearer ${
-        authToken || localStorage.getItem("accessToken")
-      }`,
+      headers: {
+        authorization: `Bearer ${
+          authToken || localStorage.getItem("accessToken")
+        }`,
+      },
       body: JSON.stringify({
         query: query,
       }),
@@ -108,9 +110,11 @@ export default function Admin() {
   const id = () => {
     fetch("https://api.muselab.app/api/logging/get/" + query, {
       method: "GET",
-      authorization: `Bearer ${
-        authToken || localStorage.getItem("accessToken")
-      }`,
+      headers: {
+        authorization: `Bearer ${
+          authToken || localStorage.getItem("accessToken")
+        }`,
+      },
     })
       .then((response) => {
         if (response.ok) {
