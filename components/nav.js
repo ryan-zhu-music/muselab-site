@@ -85,14 +85,14 @@ export default function Nav() {
                 </Link>
               </li>
             )}
-            <li>
+            {/*<li>
               <Link
                 href="/about"
                 className="hover:text-teal-500 duration-300 ease-in-out"
               >
                 About
               </Link>
-            </li>
+            </li>*/}
             <li>
               <Link
                 href="/download"
@@ -153,14 +153,14 @@ export default function Nav() {
             </Link>
           </li>
         )}
-        <li>
+        {/*<li>
           <Link
             href="/about"
             className="hover:text-teal-500 duration-300 ease-in-out"
           >
             About
           </Link>
-        </li>
+        </li>*/}
         <li>
           <Link
             href="/download"

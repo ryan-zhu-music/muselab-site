@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Spinner from "../../components/spinner";
 import Nav from "../../components/nav";
+import { ToastContainer } from "react-toastify";
 
-import { showError, showSuccess } from "../../utils/verify";
+import { showError } from "../../utils/verify";
 import Button from "../../components/button";
 
 export default function Admin() {
@@ -135,6 +136,7 @@ export default function Admin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
+      <ToastContainer />
       <main className="flex flex-col items-center justify-center w-full h-full bg-[url('/assets/background.png')] bg-no-repeat bg-cover px-10 md:px-20 lg:px-32">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-50 mb-10">
           Logs
