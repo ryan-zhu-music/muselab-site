@@ -81,3 +81,18 @@ export const showSuccess = (message) => {
     },
   });
 };
+
+export const showWarning = (message) => {
+  toast.warning(message, {
+    position: toast.POSITION.BOTTOM_RIGHT,
+    autoClose: 5000,
+    pauseOnHover: false,
+    draggable: false,
+    style: {
+      fontFamily: "Nunito Sans",
+      opacity: 0.9,
+      background: "#1F2937",
+      color: "#F9FAFB",
+    },
+  });
+};

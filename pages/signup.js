@@ -4,12 +4,14 @@ import Nav from "../components/nav";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../components/spinner";
 
 import {
   verifyUsername,
   verifyEmail,
   verifyPassword,
   showError,
+  showWarning,
 } from "../utils/verify";
 
 export default function Signup() {
@@ -17,6 +19,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -37,50 +40,23 @@ export default function Signup() {
         }),
       })
         .then((res) => {
-          let ok = res.ok;
           res
             .json()
             .then((data) => {
-              if (!ok) {
-                throw new Error(data.message);
-              }
-              fetch("https://api.muselab.app/api/auth/login", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  username,
-                  password,
-                }),
-              })
-                .then((response) => {
-                  if (response.ok) {
-                    return response.json();
-                  } else {
-                    showError("Failed to log in.");
-                    localStorage.setItem("isLoggedIn", false);
-                    setTimeout(() => {
-                      window.location.href = "/login";
-                    }, 5000);
-                  }
-                })
-                .then((data) => {
-                  localStorage.setItem("accessToken", data.accessToken);
-                  localStorage.setItem("userId", data.id);
-                  localStorage.setItem("username", data.username);
-                  localStorage.setItem("email", data.email);
-                  localStorage.setItem("isLoggedIn", true);
-                  window.location.href = "/projects";
-                })
-                .catch((error) => {
-                  showError(error.message);
-                  localStorage.setItem("isLoggedIn", false);
-                });
+              console.log(data);
+              localStorage.setItem("accessToken", data.accessToken);
+              localStorage.setItem("userId", data.id);
+              localStorage.setItem("username", data.username);
+              localStorage.setItem("email", data.email);
+              localStorage.setItem("isLoggedIn", true);
+              setLoading(true);
+              showWarning("Please check your email to verify your account.");
+              setTimeout(() => {
+                window.location.href = "/login";
+              }, 5000);
             })
             .catch((err) => {
               showError(err.message);
-              localStorage.setItem("isLoggedIn", false);
             });
         })
         .catch((err) => {
@@ -90,7 +66,9 @@ export default function Signup() {
     }
   };
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <div className="w-screen h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Head>
         <title>MuseLab Sign-up</title>
