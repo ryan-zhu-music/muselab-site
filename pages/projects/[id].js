@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import Modal from "../../components/modal";
 import Button from "../../components/button";
+import { PulseLoader } from "react-spinners";
 
 import JSZip from "jszip";
 
@@ -32,6 +33,7 @@ export default function ProjectPage() {
   const [showModal, setShowModal] = useState("");
   const [sortMethod, setSortMethod] = useState("newest");
 
+  const [loading, setLoading] = useState(false);
   const updateProject = () => {
     let newProject = {};
     if (projectTitle) newProject.name = projectTitle;
@@ -131,6 +133,7 @@ export default function ProjectPage() {
   };
 
   const addFile = (file) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", file.name);
@@ -147,6 +150,7 @@ export default function ProjectPage() {
         response
           .json()
           .then((data) => {
+            setLoading(false);
             if (data.error) {
               throw new Error(data.error);
             }
@@ -159,7 +163,8 @@ export default function ProjectPage() {
     setShowModal("");
   };
 
-  const deleteFile = (fileId) => {
+  const deleteFile = (file, fileId) => {
+    console.log(file);
     fetch(
       `https://api.muselab.app/api/projects/get/${project.projectId}/files/delete/${fileId}`,
       {
@@ -520,7 +525,17 @@ export default function ProjectPage() {
             Files
             <Modal
               preview={
-                <FaFileUpload className="text-white/50 hover:text-white duration-300 ease-in-out text-lg md:text-xl lg:text-2xl" />
+                loading ? (
+                  <PulseLoader
+                    color={"#F4F7FFE1"}
+                    loading={true}
+                    size={8}
+                    margin={2}
+                    speedMultiplier={0.5}
+                  />
+                ) : (
+                  <FaFileUpload className="text-white/50 hover:text-white duration-300 ease-in-out text-lg md:text-xl lg:text-2xl" />
+                )
               }
               content={
                 <div className="z-50 px-10 py-8 flex flex-col items-center justify-center gap-5 ring-1 ring-slate-600 bg-blue-950/30 rounded-lg">
@@ -610,13 +625,13 @@ export default function ProjectPage() {
                                 <Button
                                   text="Delete"
                                   type="primary"
-                                  onClick={() => deleteFile(file.id)}
+                                  onClick={() => deleteFile(file, file.id)}
                                 />
                               </div>
                             }
                             showModal={showModal}
                             setShowModal={setShowModal}
-                            name={"deleteFile"}
+                            name={"deleteFile" + index}
                           />
                           <button
                             className="text-white/50 ml-5 font-regular text-xs sm:text-base lg:text-lg xl:text-xl"
