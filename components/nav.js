@@ -7,7 +7,7 @@ import { HiMenu } from "react-icons/hi";
 import { showError, showSuccess } from "../utils/verify";
 import { ToastContainer } from "react-toastify";
 
-export default function Nav() {
+export default function Nav({ fixed }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { width, height } = useWindowDimensions();
   const [open, setOpen] = useState(false);
@@ -44,7 +44,12 @@ export default function Nav() {
 
   if (width < 900) {
     return (
-      <nav className="w-screen pt-3 fixed z-30 top-0 flex flex-row justify-between items-center px-6 md:px-12">
+      <nav
+        className={
+          "w-screen pt-3 z-30 flex flex-row justify-between items-center px-6 md:px-12 " +
+          (!fixed && "fixed top-0 ")
+        }
+      >
         <ToastContainer />
         <Link href="/">
           <Image
@@ -138,7 +143,12 @@ export default function Nav() {
   }
 
   return (
-    <nav className="w-screen h-28 fixed z-30 top-0 flex flex-row justify-between items-center px-16">
+    <nav
+      className={
+        "w-screen h-28 z-30 flex flex-row justify-between items-center px-16 top-0 " +
+        (!fixed ? "fixed" : "absolute")
+      }
+    >
       <Link href="/">
         <Image src="/assets/logo.png" alt="MuseLab" width={240} height={240} />
       </Link>
