@@ -103,12 +103,14 @@ export default function Download() {
           <div>
             <b className="font-black text-white">5. </b>
             On the left, make sure <b className="text-teal-300">MuseLab</b> is
-            checked, then press "<b className="text-green-300">OK</b>."
+            checked, then press &quot;<b className="text-green-300">OK</b>
+            .&quot;
           </div>
           <div>
             <b className="font-black text-white">6. </b>
-            You're all set! To use <b className="text-teal-300">MuseLab</b>,
-            click on <b className="text-fuchsia-300">Plugins {">"} MuseLab</b>.
+            You&apos;re all set! To use <b className="text-teal-300">MuseLab</b>
+            , click on <b className="text-fuchsia-300">Plugins {">"} MuseLab</b>
+            .
           </div>
         </div>
         <footer className="w-screen h-32 flex flex-row justify-center items-center bg-transparent">
