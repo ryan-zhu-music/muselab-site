@@ -4,7 +4,6 @@ import Nav from "../../components/nav";
 import Downloader from "../../components/downloader";
 import { FaWindows, FaApple, FaLinux } from "react-icons/fa";
 import { MdFolderZip } from "react-icons/md";
-import { showError, showSuccess } from "../../utils/verify";
 import Link from "next/link";
 
 const downloads = [

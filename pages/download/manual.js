@@ -3,6 +3,7 @@ import React from "react";
 import Head from "next/head";
 import Nav from "../../components/nav";
 import Image from "next/image";
+import { showError, showSuccess } from "../../utils/verify";
 
 export default function Download() {
   const downloadZip = () => {
