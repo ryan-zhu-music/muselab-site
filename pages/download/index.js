@@ -5,6 +5,7 @@ import Downloader from "../../components/downloader";
 import { FaWindows, FaApple, FaLinux } from "react-icons/fa";
 import { MdFolderZip } from "react-icons/md";
 import { showError, showSuccess } from "../../utils/verify";
+import Link from "next/link";
 
 const downloads = [
   {
@@ -64,7 +65,7 @@ export default function Download() {
           Or, if you prefer to install MuseLab{" "}
           <b className="text-orange-300">manually:</b>
         </p>
-        <a
+        <Link
           className="relative flex flex-col cursor-pointer items-center justify-center rounded-lg backdrop-blur-sm py-[2vh] ring-1 ring-slate-600 bg-blue-950/30 hover:scale-105 hover:shadow-sm duration-300 ease-in-out portrait:w-2/3 w-1/4"
           href="/download/manual"
         >
@@ -77,7 +78,7 @@ export default function Download() {
           <p className="relative z-10 text-white/50 font-regular text-xs sm:text-base xl:text-lg">
             Instructions
           </p>
-        </a>
+        </Link>
       </main>
       <footer className="w-screen h-20 fixed bottom-0 flex flex-row justify-center items-center bg-transparent">
         <p className="text-white/20 font-medium text-xs lg:text-sm">
