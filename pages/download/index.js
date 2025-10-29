@@ -9,17 +9,17 @@ import Link from "next/link";
 const downloads = [
   {
     title: "Windows",
-    filename: "installer-win.exe",
+    filename: "muselab-win.exe",
     icon: <FaWindows />,
   },
   {
     title: "MacOS",
-    filename: "installer-macos",
+    filename: "muselab-mac",
     icon: <FaApple />,
   },
   {
     title: "Linux",
-    filename: "installer-linux",
+    filename: "muselab-linux",
     icon: <FaLinux />,
   },
 ];
